@@ -1,0 +1,46 @@
+
+Queries:
+   marriedTo ('Bea' , 'Zed')?
+
+Rules:
+   marriedTo( X,Y ) :- marriedTo(Y,X) .
+
+
+
+# undefined character
+
+#+
+
+
+
+# non-dash after colon
+
+   :-
+
+   ::
+
+
+
+# unterminated string
+
+'good string'
+
+'bad string
+
+
+
+# identifiers that contain numbers
+
+bob
+
+joe42
+
+
+
+
+# try all keywords
+
+Schemes
+Facts
+Rules
+Queries
