@@ -9,18 +9,16 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-#include "LexicalAnalysis.h"
+#include "LexicalAnalyzer.h"
 
 using namespace std;
 
-string convertToken(int t) {
-    switch (t) {
+// function to returns enum values as strings.
+
+string tokenizer(int token) {
+    switch (token) {
         case SPACE:  return "SPACE";
-        //case LETTER: return "LETTER";
-        //case DIGIT:  return "DIGIT";
-        //case PLUS_CODE:  return "PLUS_CODE";
-        case IDENT:  return "ID";
-        case INT_LIT:return "INT_LIT";
+        case INTEGER:return "INTEGER";
         case ERROR:  return "ERROR";
         case STOP:  return "STOP";
         case COMMA:  return "COMMA";
@@ -42,19 +40,19 @@ string convertToken(int t) {
     }
 }
 
-int main (void)
+int main (int argc, char *argv[])
 {
-    ofstream outputFile("/Users/birdman/Documents/Project1/Project1/output.txt");
-    ifstream inputFile("/Users/birdman/Documents/Project1/Project1/input.txt");
+    ifstream inputFile(argv[4]);
+    ofstream outputFile(argv[5]);
     string line;
     long long length;
     
-    inputFile.seekg(0, ios::end); // put the "cursor" at the end of the file
-    length = inputFile.tellg(); // find the position of the cursor
-    inputFile.seekg(0, ios::beg); //return the "cursor" at the beginning of the file
+    inputFile.seekg(0, ios::end);   //  put the "cursor" at the end of the file
+    length = inputFile.tellg();     //  find the position of the cursor
+    inputFile.seekg(0, ios::beg);   //  return the "cursor" at the beginning of the file
     
-    if ( length == 0 ) {
-        cout << "Failure: The file is empty!" << endl;
+    if ( length == 0 ) {            //  checks for the file length
+        outputFile << "Failure: The file is empty!" << endl;
     }
     else {
         
@@ -62,6 +60,7 @@ int main (void)
         int linecount = 0;
         int tokencount = 0;
         
+        //  Use getline to handle the code line by line which will make it easy to get the line numbers
         
         while(getline(inputFile, line)) {
             
@@ -69,6 +68,8 @@ int main (void)
             
             LexAn *LA;
             LA = new LexAn(line);
+            
+            //  keeps reading in characters until the endline STOP token appears
             
             while (token != STOP) {
                 
@@ -84,10 +85,10 @@ int main (void)
                 else if (token == ERROR)
                     outputFile << "Input error on line " << linecount << endl;
                 else {
-                    outputFile << "(" << convertToken(token) << ", \"" << LA->lexeme << "\", " << linecount << ")" << endl;
+                    outputFile << "(" << tokenizer(token) << ", \"" << LA->lexeme << "\", " << linecount << ")" << endl;
                 }
             }
-            token = 0; //resets the token so that the getline while loop doesnt stop at the STOP.
+            token = 0; //resets the token so that the getline while loop moves to the next line.
         }
         outputFile << "Total Tokens: " << tokencount - linecount << endl;
     }
