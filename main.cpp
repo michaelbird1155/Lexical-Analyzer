@@ -13,14 +13,14 @@
 
 using namespace std;
 
-// function to returns enum values as strings.
+// function to return enum values as strings.
 
 string tokenizer(int token) {
     switch (token) {
         case SPACE:  return "SPACE";
-        case INTEGER:return "INTEGER";
         case ERROR:  return "ERROR";
         case STOP:  return "STOP";
+        //case INTEGER:  return "ERROR";
         case COMMA:  return "COMMA";
         case PERIOD:  return "PERIOD";
         case Q_MARK:  return "Q_MARK";
@@ -34,18 +34,16 @@ string tokenizer(int token) {
         case QUERIES:  return "QUERIES";
         case ID:  return "ID";
         case STRING:  return "STRING";
-        case QUOTATION: return "QUOTATION";
-        case COMMENT: return "COMMENT";
-        default:  return "UNKNOWN";
+        default:  return "ERROR";
     }
 }
 
 int main (int argc, char *argv[])
 {
- //   ifstream inputFile("/Users/birdman/Documents/Project1/Project1/input.txt");
-   // ofstream outputFile("/Users/birdman/Documents/Project1/Project1/output.txt");
-    ifstream inputFile(argv[1]);
-    ofstream outputFile(argv[2]);
+   //ifstream inputFile("/Users/birdman/Documents/Project1/Project1/input.txt");
+    //ofstream outputFile("/Users/birdman/Documents/Project1/Project1/output.txt");
+   ifstream inputFile(argv[1]);
+   ofstream outputFile(argv[2]);
     string line;
    // long long length;
    /*
@@ -86,7 +84,7 @@ int main (int argc, char *argv[])
                     delete LA; //frees the memory blocks so there arent memory leaks.
                     return 0;
                 }
-                else if (token == ERROR) {
+                else if (token == ERROR || tokenizer(token) == "ERROR") {
                     outputFile << "Input Error on line " << linecount << endl;
                     delete LA; //frees the memory blocks so there arent memory leaks.
                     return 0;

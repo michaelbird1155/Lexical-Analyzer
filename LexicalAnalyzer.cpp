@@ -41,12 +41,9 @@ void LexAn::get_char()
         input.erase(0,1);
 	}
 	else
-        next_char = '$';
+        next_char = '\n';
     
 	char_class = ERROR;
-    
-	if ( (next_char <= 127 && next_char < 39) )
-		char_everything = EVERYTHING;
     
     switch (next_char) {
         case 65 ... 90:
@@ -61,7 +58,7 @@ void LexAn::get_char()
         case ' ':
             char_class = SPACE;
             break;
-        case '$':
+        case '\n':
             char_class = STOP;
             break;
         case '+':
@@ -102,6 +99,9 @@ void LexAn::get_char()
             break;
         case '_':
             char_class = UNDERSCORE;
+            break;
+        case 9:
+            char_class = SPACE;
             break;
         default:
             char_class = ERROR;
